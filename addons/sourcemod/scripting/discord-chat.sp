@@ -28,7 +28,7 @@ public void OnPluginStart()
 	}
 	devapikey = CreateConVar("sm_bydexter_apikey", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "https://steamcommunity.com/dev/apikey Siteden api key alınız."); devapikey.GetString(ApiKey, 33); devapikey.AddChangeHook(devapikeyget);
 	webhook = CreateConVar("sm_discord-chat_webhook", "", "Discord Webhook"); webhook.GetString(WebHook, 192); webhook.AddChangeHook(webhookget);
-	AutoExecConfig(true, "ByDexter", "discord-chat");
+	AutoExecConfig(true, "discord-chat", "ByDexter");
 }
 
 public void devapikeyget(ConVar convar, const char[] oldValue, const char[] newValue) { webhook.GetString(ApiKey, 33); }

@@ -25,7 +25,7 @@ public void OnPluginStart()
 
 public void webhookget(ConVar convar, const char[] oldValue, const char[] newValue) { webhook.GetString(WebHook, 192); }
 
-void SendDiscordBan(int client, int target, char mins[64], const char[] reason)
+void SendDiscordBan(int target, int client, char mins[64], const char[] reason)
 {
 	char TargetSteamid[128];
 	GetClientAuthId(target, AuthId_Steam2, TargetSteamid, 128);
