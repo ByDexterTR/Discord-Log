@@ -20,7 +20,7 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	webhook = CreateConVar("sm_discord-ban_webhook", "", "Discord Webhook"); webhook.GetString(WebHook, 192); webhook.AddChangeHook(webhookget);
-	AutoExecConfig(true, "ByDexter", "discord-ban");
+	AutoExecConfig(true, "discord-ban", "ByDexter");
 }
 
 public void webhookget(ConVar convar, const char[] oldValue, const char[] newValue) { webhook.GetString(WebHook, 192); }
@@ -43,7 +43,11 @@ void SendDiscordBan(int client, int target, char mins[64], const char[] reason)
 	Embed.SetFooter("-ByDexter");
 	Format(EmbedFormat, 256, "%s \n [%s](%s)", TargetName, TargetSteamid, TargetSteam);
 	Embed.AddField(":small_orange_diamond: Ceza Alan:", EmbedFormat, true);
-	if (IsValidClient(client))
+	if (client == 0)
+	{
+		Embed.AddField(":small_blue_diamond: Yetkili:", "Panel", true);
+	}
+	else if (client != 0 && IsValidClient(client))
 	{
 		char ClientSteamid[128];
 		GetClientAuthId(client, AuthId_Steam2, ClientSteamid, 128);
@@ -56,10 +60,7 @@ void SendDiscordBan(int client, int target, char mins[64], const char[] reason)
 		Format(EmbedFormat, 256, "%s \n [%s](%s)", ClientName, ClientSteamid, ClientSteam);
 		Embed.AddField(":small_blue_diamond: Yetkili:", EmbedFormat, true);
 	}
-	else
-	{
-		Embed.AddField(":small_blue_diamond: Yetkili:", "Panel", true);
-	}
+	
 	Embed.AddField(" ", " ", false);
 	Embed.AddField(":receipt: Sebep:", reason, true);
 	Embed.AddField(":globe_with_meridians: Süre:", mins, true);
@@ -88,7 +89,11 @@ void SendDiscordBan2(int client, int target, char mins[64])
 	Embed.SetFooter("-ByDexter");
 	Format(EmbedFormat, 256, "%s \n [%s](%s)", TargetName, TargetSteamid, TargetSteam);
 	Embed.AddField(":small_orange_diamond: Ceza Alan:", EmbedFormat, true);
-	if (IsValidClient(client))
+	if (client == 0)
+	{
+		Embed.AddField(":small_blue_diamond: Yetkili:", "Panel", true);
+	}
+	else if (client != 0 && IsValidClient(client))
 	{
 		char ClientSteamid[128];
 		GetClientAuthId(client, AuthId_Steam2, ClientSteamid, 128);
@@ -100,10 +105,6 @@ void SendDiscordBan2(int client, int target, char mins[64])
 		
 		Format(EmbedFormat, 256, "%s \n [%s](%s)", ClientName, ClientSteamid, ClientSteam);
 		Embed.AddField(":small_blue_diamond: Yetkili:", EmbedFormat, true);
-	}
-	else
-	{
-		Embed.AddField(":small_blue_diamond: Yetkili:", "Panel", true);
 	}
 	Embed.AddField(" ", " ", false);
 	Embed.AddField(":receipt: Sebep:", "Yazılmamış", true);
@@ -138,7 +139,12 @@ void SendDiscordUnban(int client, const char[] idenity)
 	DiscordWebHook hook = new DiscordWebHook(WebHook);
 	hook.SlackMode = true;
 	MessageEmbed Embed = new MessageEmbed();
-	if (IsValidClient(client))
+	if (client == 0)
+	{
+		Embed.AddField(":small_blue_diamond: Yetkili:", "Panel", true);
+		Embed.AddField(":small_orange_diamond: Cezası Kaldırılan:", idenity, true);
+	}
+	else if (client != 0 && IsValidClient(client))
 	{
 		char ClientSteamid[128];
 		GetClientAuthId(client, AuthId_Steam2, ClientSteamid, 128);
@@ -154,11 +160,7 @@ void SendDiscordUnban(int client, const char[] idenity)
 		Embed.AddField(":small_orange_diamond: Cezası Kaldırılan:", idenity, true);
 		
 	}
-	else
-	{
-		Embed.AddField(":small_blue_diamond: Yetkili:", "Panel", true);
-		Embed.AddField(":small_orange_diamond: Cezası Kaldırılan:", idenity, true);
-	}
+	
 	Embed.SetColor("#00a3ff");
 	Embed.SetFooter("-ByDexter");
 	hook.Embed(Embed);
