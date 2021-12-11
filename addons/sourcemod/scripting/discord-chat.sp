@@ -26,7 +26,7 @@ public void OnPluginStart()
 	{
 		OnClientPostAdminCheck(i);
 	}
-	devapikey = CreateConVar("sm_bydexter_apikey", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "https://steamcommunity.com/dev/apikey Siteden api key alınız."); devapikey.GetString(ApiKey, 33); devapikey.AddChangeHook(devapikeyget);
+	devapikey = CreateConVar("sm_bydexter_apikey", "", "https://steamcommunity.com/dev/apikey Siteden api key alınız.", FCVAR_PROTECTED); devapikey.GetString(ApiKey, 33); devapikey.AddChangeHook(devapikeyget);
 	webhook = CreateConVar("sm_discord-chat_webhook", "", "Discord Webhook"); webhook.GetString(WebHook, 192); webhook.AddChangeHook(webhookget);
 	AutoExecConfig(true, "discord-chat", "ByDexter");
 }
@@ -38,9 +38,10 @@ public void OnClientPostAdminCheck(int client)
 {
 	if (IsValidClient(client))
 	{
-		if (strcmp(ApiKey, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", false) == 0)
+		clientresim[client] = "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg";
+		int Len = strlen(ApiKey);
+		if (Len >= 30)
 		{
-			clientresim[client] = "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg";
 			RequestAvatar(client);
 		}
 	}
